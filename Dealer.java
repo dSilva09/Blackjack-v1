@@ -1,44 +1,66 @@
+import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Dom on 4/27/2015.
  */
-public class Dealer extends Player{
+public class Dealer extends Player {
 
-    //Field declarations----------------------------------------
+    //Fields ----------------------------------------
     Card topCard;
 
     //Constructor----------------------------------------
-    public Dealer(){
+
+    /**
+     * Creates a new dealer with a hand.
+     */
+    public Dealer() {
         this.hand = new ArrayList<Card>();
     }
 
-    //Methods----------------------------------------
-    public void ShowTopCard(List<Card> hand){
+    //Public Methods----------------------------------------
+
+    /**
+     * Gets the top card from the dealers hand.
+     *
+     * @param hand the dealer's hand
+     */
+    public void ShowTopCard(List<Card> hand) {
         Card topCard = hand.get(hand.size() - 1);
-        if (topCard.getCardValue() >= 10 && topCard.getCardRank() != CardRank.TEN){
+        if (topCard.getCardValue() >= 10 && topCard.getCardRank() != CardRank.TEN) {
             System.out.println("\nDealer has a " + topCard.getCardRank() + " of " + topCard.getSuit() + " showing.");
-        }
-        else {
-            System.out.println("\nDealer has a " + topCard.getCardValue() + " of " + topCard.getSuit() + " showing");
+        } else {
+            System.out.println("\nDealer has a " + topCard.getCardValue() + " of " + topCard.getSuit() + " showing.");
         }
     }
 
-    public Card TakeTopCard(Deck deck){
+    /**
+     * Removes the top card from a deck and returns it.
+     * Cards are not displayed using the 'CheckForCardType' method
+     * until after the dealer has received its initial hand (hand size >=2).
+     * @param deck the deck being used in a game
+     */
+    @Override
+    public Card TakeTopCard(Deck deck) {
         Card topCard = deck.RemoveTopCard();
-        //Only print out the dealer's top card
-        CheckForCardType(topCard);
+        if (hand.size() >= 2){
+            CheckForCardType(topCard);
+        }
         return topCard;
     }
 
-    public void CheckForCardType(Card topCard){
-        if(!hand.isEmpty()) {
+    /**
+     * Checks if a card is a face or value card and prints the corresponding message.
+     * Altered print statements for dealer.
+     * @param topCard the card that is being checked for type
+     */
+    @Override
+    public void CheckForCardType(Card topCard) {
             if (topCard.getCardValue() >= 10 && topCard.getCardRank() != CardRank.TEN) {
-                System.out.println("Dealer received a " + topCard.getCardRank() + " of " + topCard.getSuit());
+                System.out.println("\nDealer received a " + topCard.getCardRank() + " of " + topCard.getSuit() + ".");
             } else {
-                System.out.println("Dealer received a " + topCard.getCardValue() + " of " + topCard.getSuit());
+                System.out.println("\nDealer received a " + topCard.getCardValue() + " of " + topCard.getSuit() + ".");
             }
-        }
     }
 }

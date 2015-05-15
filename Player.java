@@ -1,4 +1,3 @@
-import javax.swing.*;
 import java.util.*;
 
 /**
@@ -7,7 +6,7 @@ import java.util.*;
 public class Player {
     public Scanner keyboard;
 
-    //Field declarations----------------------------------------
+    //Fields ----------------------------------------
     protected String name;
     protected List<Card> hand;
     //boolean hasBlackjack;
@@ -18,34 +17,35 @@ public class Player {
     protected boolean hasBalance = true;
     protected boolean hasBlackjack = false;
 
-    //Constructor----------------------------------------
+    //Constructor ----------------------------------------
 
-    //Overload 1
-    //Parameters: player name, player balance
-    public Player(String name, int balance) {
+    /**
+     * Overload 1:
+     * Creates a human player with a hand, name, and starting balance
+     *
+     * @param name            the name assigned to the human player
+     * @param startingBalance the balance assigned to the human player
+     */
+    public Player(String name, int startingBalance) {
         hand = new ArrayList<Card>();
         this.name = name;
-        this.balance = balance;
-    }
-
-    //Overload 2 - For AI
-    //Parameters: starting balance
-    public Player(int startingBalance) {
-        hand = new ArrayList<Card>();
         this.balance = startingBalance;
     }
 
-    //Overload 3 = For dealer
+    /**
+     * Overload 2:
+     * Creates an empty player. Used for the dealer.
+     */
     public Player() {
     }
 
-    //Properties----------------------------------------
+    //Properties ----------------------------------------
+
 
     public boolean hasBalance() {
         if (getBalance() == 0) {
-            return hasBalance  = false;
-        }
-        else{
+            return hasBalance = false;
+        } else {
             return hasBalance;
         }
     }
@@ -79,10 +79,6 @@ public class Player {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public int getHandSum() {
         return handSum;
     }
@@ -91,14 +87,21 @@ public class Player {
         this.handSum = handSum;
     }
 
-    //Methods----------------------------------------
+    //Public Methods ----------------------------------------
 
-    //Prompts user for wager amount
-    //Returns wager
+    /**
+     * Allows a human player to set a wager.
+     * While a valid selection has not been selected:
+     * Prompt user for wager amount and sets the wager entered
+     * If the wager is at least equal to the balance of the human player,
+     * set the wager and break from the loop
+     * Else print a message informing the player that the wager they entered
+     * is incorrect; continue looping
+     */
     public void Wager() {
         keyboard = new Scanner(System.in);
 
-        while(true) {
+        while (true) {
             System.out.print("\nEnter wager: ");
             wager = keyboard.nextInt();
             if (wager <= balance) {
@@ -110,34 +113,65 @@ public class Player {
         }
     }
 
-    //Prompts player for hit or stay
-    //Returns choice
+    /**
+     * Prompts human player to either "Hit" or "Stay."
+     * Calls the HandleInput method and passes in the correct name of
+     * the prompt list and the number of selections that will be prompted.
+     *
+     * @return the human choice the player has selected
+     */
     public int HitPrompt() {
-        int choice = Main.MenuSelections("Hit", 2);
+        int choice = Main.HandleInput("Hit", 2);
         return choice;
     }
 
-    /*Calls method
-    public void Hit (Player player, Deck deck) {
-        player.ReceiveCards(deck);
-    }*/
-
-    //Adds cards to a player's hand
+    /**
+     * Adds the top card from a deck to a player's hand
+     *
+     * @param player a human player or an AI dealer player
+     * @param deck   the deck being used in a game
+     */
     public void Hit(Player player, Deck deck) {
         player.getHand().add(TakeTopCard(deck));
     }
 
-    //Removes top card
-    //Returns top card
+    /**
+     * Removes the top card from a deck and checks its type.
+     *
+     * @param deck the deck being used in a game
+     * @return the top card that is removed
+     */
     public Card TakeTopCard(Deck deck) {
 
         Card topCard = deck.RemoveTopCard();
-        if (topCard.getCardValue() >= 10 && topCard.getCardRank() != CardRank.TEN){
+        CheckForCardType(topCard);
+        return topCard;
+    }
+
+    /**
+     * Checks if a card is a face or value card and prints the corresponding message.
+     * @param topCard the card that is being checked for type
+     */
+    public void CheckForCardType(Card topCard) {
+
+        if (topCard.getCardValue() >= 10 && topCard.getCardRank() != CardRank.TEN) {
             System.out.println("You received a " + topCard.getCardRank() + " of " + topCard.getSuit());
-        }
-        else {
+        } else {
             System.out.println("You received a " + topCard.getCardValue() + " of " + topCard.getSuit());
         }
-        return topCard;
+    }
+
+    /**
+     * Tests to see if a hand has an Ace.
+     * @param hand the player's hand in question.
+     * @return true if the hand has an Ace, false if it does not
+     */
+    public boolean hasAnAce(List<Card> hand) {
+        for (Card card : hand) {
+            if (card.cardRank == CardRank.ACE) {
+                return true;
+            }
+        }
+        return false;
     }
 }

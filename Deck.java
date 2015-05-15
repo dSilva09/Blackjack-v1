@@ -17,8 +17,12 @@ public class Deck {
     }
 
     //Constructor----------------------------------------
-    //No parameters
-    //Creates Card array list
+
+    /**
+     * Creates a new deck of cards.
+     * An array list of card objects is produced by assigning
+     * each card rank 4 unique card suits.
+     */
     public Deck() {
 
         this.cards = new ArrayList<Card>();
@@ -33,7 +37,7 @@ public class Deck {
 
     }
 
-    //Methods----------------------------------------
+    //Public Methods ----------------------------------------
 
     //Gets current top card
     public Card getTopCard() {
@@ -41,13 +45,21 @@ public class Deck {
         return topCard;
     }
 
-    //Removes top card from deck, returns top card
+    /**
+     * Removes the top card from a list of cards.
+     * @return the top card
+     */
     public Card RemoveTopCard() {
         topCard = cards.remove(cards.size() - 1);
         return topCard;
     }
 
-    //Shuffles deck
+    /**
+     * Shuffles a deck of cards.
+     * A card is randomly selected from an initial list of cards (cards) and added to a new list of cards (shuffledCards).
+     * Once all of the cards have been transferred from 'cards' to the 'shuffledCards,' 'shuffledCards' is reassigned as 'cards'
+     * to prevent referencing issues.
+     */
     public void Shuffle() {
 
         //Create separate array list of cards for new shuffled deck
@@ -65,9 +77,5 @@ public class Deck {
         }
         //Reassign the shuffled deck to the old deck;
         cards = shuffledCards;
-
     }
-
-
-
 }

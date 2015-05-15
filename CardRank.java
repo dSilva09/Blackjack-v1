@@ -1,6 +1,10 @@
 /**
  * Created by Dom on 4/27/2015.
  */
+
+/**
+ * The 13 ranks and their corresponding default values (for Blackjack) of a standard deck of cards.
+ */
 public enum CardRank {
 
         TWO(2),

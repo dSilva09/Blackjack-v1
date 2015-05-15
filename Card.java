@@ -3,11 +3,10 @@
  */
 public class Card {
 
-    //Field declarations----------------------------------------
+    //Fields ----------------------------------------
     Suit suit;
     int cardValue;
     CardRank cardRank;
-    //private boolean faceUp;
 
     //Properties----------------------------------------
     public Suit getSuit() {
@@ -23,13 +22,18 @@ public class Card {
     }
 
     //Constructor----------------------------------------
-    //Parameters: card value, card suit
-    public Card(CardRank cardRank, int cardValue, Suit suit){
 
+    /**
+     * Creates a card object.
+     * @param cardRank a cards corresponding rank. Card ranks that contain numbers have a corresponding card value.
+     *                 Cards that do not are known as face cards (Jack, Queen, King, Ace).
+     * @param cardValue the numerical value that represents a cards rank.
+     * @param suit an additional distinguishing feature of card (Club, Spade, Diamond, Heart). Does not influence outcome of game.
+     */
+    public Card(CardRank cardRank, int cardValue, Suit suit){
         this.suit = suit;
         this.cardRank = cardRank;
         this.cardValue = cardValue;
-        //faceUp = false;
     }
 
 }
